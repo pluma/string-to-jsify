@@ -1,6 +1,6 @@
 # Synopsis
 
-**string-to-jsify** is a [string-to-js](https://github.com/visionmedia/node-string-to-js) transform for [browserify](https://github.com/substack/browserify).
+**string-to-jsify** is a [string-to-js](https://github.com/visionmedia/node-string-to-js) transform for [browserify](https://github.com/substack/node-browserify).
 
 [![Build Status](https://travis-ci.org/pluma/string-to-jsify.png?branch=master)](https://travis-ci.org/pluma/string-to-jsify) [![NPM version](https://badge.fury.io/js/string-to-jsify.png)](http://badge.fury.io/js/string-to-jsify) [![Dependencies](https://david-dm.org/pluma/string-to-jsify.png)](https://david-dm.org/pluma/string-to-jsify)
 
