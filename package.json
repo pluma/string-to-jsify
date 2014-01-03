@@ -1,14 +1,20 @@
 {
   "name": "string-to-jsify",
   "author": "Alan Plum <me@pluma.io>",
-  "version": "0.2.0",
-  "license": "CC0",
+  "version": "0.2.1",
   "description": "A string-to-js transform for browserify.",
+  "licenses": {
+    "type": "UNLICENSE",
+    "url": "https://github.com/pluma/string-to-jsify/blob/master/UNLICENSE"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pluma/string-to-jsify.git"
+  },
   "keywords": [
     "browserify",
     "strings"
   ],
-  "main": "./index.js",
   "dependencies": {
     "browserify-transform-tools": "~1.1"
   },
@@ -17,10 +23,7 @@
     "expect.js": "~0.2",
     "jshint": "~2.4"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/pluma/string-to-jsify.git"
-  },
+  "main": "./index.js",
   "scripts": {
     "test": "make test"
   },

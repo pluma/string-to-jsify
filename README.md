@@ -105,6 +105,6 @@ An array of file extensions, e.g. `.txt` or `.html`.
 
 An array of file names, e.g. `README.md`.
 
-# License
+# Unlicense
 
-The code is released into the Public Domain according to the terms of [CC0](http://creativecommons.org/publicdomain/zero/1.0/).
+This is free and unencumbered public domain software. For more information, see http://unlicense.org/ or the accompanying [UNLICENSE](https://github.com/pluma/string-to-jsify/blob/master/UNLICENSE) file.
