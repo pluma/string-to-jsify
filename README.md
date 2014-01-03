@@ -1,6 +1,8 @@
 # Synopsis
 
-**string-to-jsify** is a [string-to-js](https://github.com/visionmedia/node-string-to-js) transform for [browserify](https://github.com/substack/node-browserify).
+**string-to-jsify** is a [browserify](https://github.com/substack/node-browserify) transform that allows you to load arbitrary text files as node modules.
+
+This library uses [browserify-transform-tools](https://github.com/benbria/browserify-transform-tools), so you can also supply the configuration by adding a `string-to-jsify` field to your project's `package.json` file.
 
 [![Build Status](https://travis-ci.org/pluma/string-to-jsify.png?branch=master)](https://travis-ci.org/pluma/string-to-jsify) [![NPM version](https://badge.fury.io/js/string-to-jsify.png)](http://badge.fury.io/js/string-to-jsify) [![Dependencies](https://david-dm.org/pluma/string-to-jsify.png)](https://david-dm.org/pluma/string-to-jsify)
 
@@ -45,29 +47,64 @@ var browserify = require('browserify'),
     str2jsify = require('string-to-jsify'),
     b = browserify('./example/app.js');
 
-b.transform(str2jsify.filter('.html'));
+b.transform(str2jsify.configure({extensions: '.html'}));
 b.bundle().pipe(require('fs').createWriteStream('bundle.js'));
+```
+
+## Usage with package.json
+
+### package.json
+
+```json
+{
+    "name": "my-awesome-project",
+    "devDependencies": {
+        "browserify": "*",
+        "string-to-jsify": "*"
+    },
+    "string-to-jsify": {
+        "extensions": [".html", ".txt"],
+        "patterns": ["/^README(\.[a-z]+)?$/i", "[a-z]+\.md"]
+    }
+}
+```
+
+### Usage (API)
+
+```javascript
+var browserify = require('browserify'),
+    str2jsify = require('string-to-jsify'),
+    b = browserify('./example/app.js');
+
+b.transform(str2jsify);
+b.bundle().pipe(require('fs').createWriteStream('bundle.js'));
+```
+
+### Usage (Shell)
+
+```sh
+browserify -t string-to-jsify ./example/app.js > bundle.js
 ```
 
 # API
 
-## str2jsify
-
-The default browserify transform. Runs its input through `string-to-js`.
-
-## str2jsify.filter(pattern)
+## str2jsify.configure(opts)
 
 Creates a browserify transform that will only be applied to files with names
-matching the given pattern.
+matching any of the given options (if the value is not an array, it will be wrapped in one automatically).
 
-If `pattern` is a `string` or an array of strings, the transform will be
-applied to all files with filenames ending with the given value (or values).
+### opts.patterns
 
-If a `RegExp` is provided, the transform will only be applied to files with
-filenames matching the regular expression.
+An array of regular expressions or strings representing regular expressions that will be applied to the filename, e.g. `/^text-/i`, `"/^text-/i"` or simply `"^text-"`.
 
-If `pattern` is empty or `null`, the transform will be applied to any file.
+### opts.extensions
+
+An array of file extensions, e.g. `.txt` or `.html`.
+
+### opts.filenames
+
+An array of file names, e.g. `README.md`.
 
 # License
 
-The MIT/Expat license.
+The code is released into the Public Domain according to the terms of [CC0](http://creativecommons.org/publicdomain/zero/1.0/).

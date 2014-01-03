@@ -7,4 +7,4 @@ test:
 lint:
 	@./node_modules/.bin/jshint index.js spec
 
-.PHONY: lint test clean
+.PHONY: lint test

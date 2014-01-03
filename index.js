@@ -1,30 +1,57 @@
-/*! string-to-jsify 0.1.0 Copyright (c) 2013 Alan Plum. MIT licensed. */
-var through = require('through'),
-    str2js = require('string-to-js');
+/*! string-to-jsify 0.2.0 Original author Alan Plum <me@pluma.io>. Released into the Public Domain under CC0. @preserve */
+var transformTools = require('browserify-transform-tools');
 
-function factory(pattern) {
-    if (typeof pattern === 'string') {
-        pattern = [pattern];
-    }
-    if (Array.isArray(pattern)) {
-        pattern = new RegExp(pattern.join('|') + '$');
-    }
-    return function(file) {
-        if (pattern && !pattern.test(file)) {
-            return through();
-        }
-        var data = '';
-        function write(buf) {
-            data += buf;
-        }
-        function end() {
-            this.queue(str2js(data));
-            this.queue(null);
-        }
-        return through(write, end);
-    };
+function splat(x) {
+  if (Array.isArray(x)) {
+    return x;
+  }
+  return [x];
 }
 
-var str2jsify = factory();
-str2jsify.filter = factory;
-module.exports = str2jsify;
+function parseRegExp(pattern) {
+  if (pattern instanceof RegExp) {
+    return pattern;
+  }
+  if (pattern.charAt(0) === '/') {
+    var i = pattern.slice(1).indexOf('/');
+    if (~i) {
+      return new RegExp(pattern.slice(1, i + 1), pattern.slice(i + 2));
+    }
+  }
+  return new RegExp(pattern);
+}
+
+function matches(cfg, name) {
+  return (cfg.filenames.some(function(filename) {
+    return filename === name;
+  })) || (cfg.extensions.some(function(extension) {
+    return extension.test(name);
+  })) || (cfg.patterns.some(function(pattern) {
+    return pattern.test(name);
+  }));
+}
+
+function prepare(cfg) {
+  var cache = {};
+  cache.filenames = (cfg.filenames ? splat(cfg.filenames) : []);
+  cache.extensions = (cfg.extensions ? splat(cfg.extensions).map(function(ext) {
+    return (new RegExp(ext + '$'));
+  }) : []);
+  cache.patterns = (cfg.patterns ? splat(cfg.patterns).map(function(pattern) {
+    return parseRegExp(pattern);
+  }) : []);
+  return cache;
+}
+
+module.exports = transformTools.makeStringTransform('string-to-jsify', {}, function(src, opts, done) {
+  if (opts.config) {
+    if (!opts.config._cache) {
+      opts.config._cache = prepare(opts.config);
+    }
+    if (matches(opts.config._cache, opts.file)) {
+      done(null, 'module.exports = ' + JSON.stringify(src) + ';');
+      return;
+    }
+  }
+  done(null, src);
+});

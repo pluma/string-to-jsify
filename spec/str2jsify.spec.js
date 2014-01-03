@@ -1,124 +1,62 @@
 /*global describe, it */
 var expect = require('expect.js'),
-    str2jsify = require('../'),
-    outputRe = /^\s*module\.exports\s*=\s*('[^']*'|"[^"]*");?\s*$/;
+  str2jsify = require('../'),
+  outputRe = /^\s*module\.exports\s*=\s*('[^']*'|"[^"]*");?\s*$/;
 
 describe('str2jsify', function() {
-    it('converts its input into a JS module', function() {
-        var input = 'Some arbitrary text',
-            output = null,
-            stream = str2jsify(),
-            timesCalled = 0;
-        stream.on('data', function(data) {
-            output = data;
-            timesCalled++;
-        });
-        stream.write(input);
-        stream.end();
-        expect(output).to.contain(input);
-        expect(output).to.match(outputRe);
-        expect(timesCalled).to.be(1);
+  it('converts its input into a JS module', function(done) {
+    var transform = str2jsify.configure({filenames: 'foo.html'});
+    var input = 'Some arbitrary text',
+      output = null,
+      stream = transform('foo.html'),
+      timesCalled = 0;
+    stream.on('data', function(data) {
+      output = data;
+      timesCalled++;
     });
-});
-
-describe('str2jsify.filter(/\\.ext/)', function() {
-    var filtered = str2jsify.filter(/\.ext/);
-    it('ignores other extensions', function() {
-        var input = 'Some arbitrary text',
-            output = null,
-            stream = filtered('bleh.js'),
-            timesCalled = 0;
-        stream.on('data', function(data) {
-            output = data;
-            timesCalled++;
-        });
-        stream.write(input);
-        stream.end();
-        expect(output).to.contain(input);
-        expect(output).to.equal(input);
-        expect(timesCalled).to.be(1);
+    stream.on('end', function() {
+      expect(timesCalled).to.be(1);
+      expect(output).to.contain(input);
+      expect(output).to.match(outputRe);
+      done();
     });
-    it('converts files with the correct extension', function() {
-        var input = 'Some arbitrary text',
-            output = null,
-            stream = filtered('bleh.ext'),
-            timesCalled = 0;
-        stream.on('data', function(data) {
-            output = data;
-            timesCalled++;
-        });
-        stream.write(input);
-        stream.end();
-        expect(output).to.match(outputRe);
-        expect(timesCalled).to.be(1);
+    stream.write(input);
+    stream.end();
+  });
+  it('ignores other extensions', function(done) {
+    var input = 'Some arbitrary text',
+      output = null,
+      stream = str2jsify('bleh.js'),
+      timesCalled = 0;
+    stream.on('data', function(data) {
+      output = data;
+      timesCalled++;
     });
-});
-
-describe('str2jsify.filter(".ext")', function() {
-    var filtered = str2jsify.filter(/\.ext/);
-    it('ignores other extensions', function() {
-        var input = 'Some arbitrary text',
-            output = null,
-            stream = filtered('bleh.js'),
-            timesCalled = 0;
-        stream.on('data', function(data) {
-            output = data;
-            timesCalled++;
-        });
-        stream.write(input);
-        stream.end();
-        expect(output).to.contain(input);
-        expect(output).to.equal(input);
-        expect(timesCalled).to.be(1);
+    stream.on('end', function() {
+      expect(output).to.contain(input);
+      expect(output).to.equal(input);
+      expect(timesCalled).to.be(1);
+      done();
     });
-    it('converts files with the correct extension', function() {
-        var input = 'Some arbitrary text',
-            output = null,
-            stream = filtered('bleh.ext'),
-            timesCalled = 0;
-        stream.on('data', function(data) {
-            output = data;
-            timesCalled++;
-        });
-        stream.write(input);
-        stream.end();
-        expect(output).to.match(outputRe);
-        expect(timesCalled).to.be(1);
+    stream.write(input);
+    stream.end();
+  });
+  it('converts files with the correct extension', function(done) {
+    var transform = str2jsify.configure({extensions: '.ext'});
+    var input = 'Some arbitrary text',
+      output = null,
+      stream = transform('bleh.ext'),
+      timesCalled = 0;
+    stream.on('data', function(data) {
+      output = data;
+      timesCalled++;
     });
-});
-
-describe('str2jsify.filter([".ext", ".stuff"])', function() {
-    var exts = ['.ext', '.stuff'];
-    var filtered = str2jsify.filter(exts);
-    it('ignores other extensions', function() {
-        var input = 'Some arbitrary text',
-            output = null,
-            stream = filtered('bleh.js'),
-            timesCalled = 0;
-        stream.on('data', function(data) {
-            output = data;
-            timesCalled++;
-        });
-        stream.write(input);
-        stream.end();
-        expect(output).to.contain(input);
-        expect(output).to.equal(input);
-        expect(timesCalled).to.be(1);
+    stream.on('end', function() {
+      expect(output).to.match(outputRe);
+      expect(timesCalled).to.be(1);
+      done();
     });
-    it('converts files with the correct extension', function() {
-        var input = 'Some arbitrary text';
-        exts.forEach(function(ext) {
-            var output = null,
-                stream = filtered('bleh' + ext),
-                timesCalled = 0;
-            stream.on('data', function(data) {
-                output = data;
-                timesCalled++;
-            });
-            stream.write(input);
-            stream.end();
-            expect(output).to.match(outputRe);
-            expect(timesCalled).to.be(1);
-        });
-    });
+    stream.write(input);
+    stream.end();
+  });
 });
