@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="string-to-jsify : loads arbitrary text files as node modules" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>string-to-jsify</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/pluma/string-to-jsify">View on GitHub</a>
+
+          <h1 id="project_title">string-to-jsify</h1>
+          <h2 id="project_tagline">loads arbitrary text files as node modules</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/pluma/string-to-jsify/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/pluma/string-to-jsify/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1>
+<a name="synopsis" class="anchor" href="#synopsis"><span class="octicon octicon-link"></span></a>Synopsis</h1>
+
+<p><strong>string-to-jsify</strong> is a <a href="https://github.com/substack/node-browserify">browserify</a> transform that allows you to load arbitrary text files as node modules.</p>
+
+<p>This library uses <a href="https://github.com/benbria/browserify-transform-tools">browserify-transform-tools</a>, so you can also supply the configuration by adding a <code>string-to-jsify</code> field to your project's <code>package.json</code> file.</p>
+
+<p><a href="https://travis-ci.org/pluma/string-to-jsify"><img src="https://travis-ci.org/pluma/string-to-jsify.png?branch=master" alt="Build Status"></a> <a href="http://badge.fury.io/js/string-to-jsify"><img src="https://badge.fury.io/js/string-to-jsify.png" alt="NPM version"></a> <a href="https://david-dm.org/pluma/string-to-jsify"><img src="https://david-dm.org/pluma/string-to-jsify.png" alt="Dependencies"></a></p>
+
+<h1>
+<a name="install" class="anchor" href="#install"><span class="octicon octicon-link"></span></a>Install</h1>
+
+<h2>
+<a name="nodejs" class="anchor" href="#nodejs"><span class="octicon octicon-link"></span></a>Node.js</h2>
+
+<h3>
+<a name="with-npm" class="anchor" href="#with-npm"><span class="octicon octicon-link"></span></a>With NPM</h3>
+
+<div class="highlight highlight-sh"><pre>npm install string-to-jsify
+</pre></div>
+
+<h3>
+<a name="from-source" class="anchor" href="#from-source"><span class="octicon octicon-link"></span></a>From source</h3>
+
+<div class="highlight highlight-sh"><pre>git clone https://github.com/pluma/string-to-jsify.git
+<span class="nb">cd </span>string-to-jsify
+npm install
+make <span class="nb">test</span>
+</pre></div>
+
+<h1>
+<a name="basic-usage-example" class="anchor" href="#basic-usage-example"><span class="octicon octicon-link"></span></a>Basic usage example</h1>
+
+<h2>
+<a name="examplepartialhtml" class="anchor" href="#examplepartialhtml"><span class="octicon octicon-link"></span></a>example/partial.html</h2>
+
+<div class="highlight highlight-html"><pre><span class="nt">&lt;blink&gt;</span>wat<span class="nt">&lt;/blink&gt;</span>
+</pre></div>
+
+<h2>
+<a name="exampleappjs" class="anchor" href="#exampleappjs"><span class="octicon octicon-link"></span></a>example/app.js</h2>
+
+<div class="highlight highlight-javascript"><pre><span class="kd">var</span> <span class="nx">partial</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'./partial.html'</span><span class="p">);</span>
+<span class="c1">// ...</span>
+</pre></div>
+
+<h2>
+<a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h2>
+
+<div class="highlight highlight-javascript"><pre><span class="kd">var</span> <span class="nx">browserify</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'browserify'</span><span class="p">),</span>
+    <span class="nx">str2jsify</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'string-to-jsify'</span><span class="p">),</span>
+    <span class="nx">b</span> <span class="o">=</span> <span class="nx">browserify</span><span class="p">(</span><span class="s1">'./example/app.js'</span><span class="p">);</span>
+
+<span class="nx">b</span><span class="p">.</span><span class="nx">transform</span><span class="p">(</span><span class="nx">str2jsify</span><span class="p">.</span><span class="nx">configure</span><span class="p">({</span><span class="nx">extensions</span><span class="o">:</span> <span class="s1">'.html'</span><span class="p">}));</span>
+<span class="nx">b</span><span class="p">.</span><span class="nx">bundle</span><span class="p">().</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">require</span><span class="p">(</span><span class="s1">'fs'</span><span class="p">).</span><span class="nx">createWriteStream</span><span class="p">(</span><span class="s1">'bundle.js'</span><span class="p">));</span>
+</pre></div>
+
+<h2>
+<a name="usage-with-packagejson" class="anchor" href="#usage-with-packagejson"><span class="octicon octicon-link"></span></a>Usage with package.json</h2>
+
+<h3>
+<a name="packagejson" class="anchor" href="#packagejson"><span class="octicon octicon-link"></span></a>package.json</h3>
+
+<div class="highlight highlight-json"><pre><span class="p">{</span>
+    <span class="nt">"name"</span><span class="p">:</span> <span class="s2">"my-awesome-project"</span><span class="p">,</span>
+    <span class="nt">"devDependencies"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">"browserify"</span><span class="p">:</span> <span class="s2">"*"</span><span class="p">,</span>
+        <span class="nt">"string-to-jsify"</span><span class="p">:</span> <span class="s2">"*"</span>
+    <span class="p">},</span>
+    <span class="nt">"string-to-jsify"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">"extensions"</span><span class="p">:</span> <span class="p">[</span><span class="s2">".html"</span><span class="p">,</span> <span class="s2">".txt"</span><span class="p">],</span>
+        <span class="nt">"patterns"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"/^README(\.[a-z]+)?$/i"</span><span class="p">,</span> <span class="s2">"[a-z]+\.md"</span><span class="p">]</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+<h3>
+<a name="usage-api" class="anchor" href="#usage-api"><span class="octicon octicon-link"></span></a>Usage (API)</h3>
+
+<div class="highlight highlight-javascript"><pre><span class="kd">var</span> <span class="nx">browserify</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'browserify'</span><span class="p">),</span>
+    <span class="nx">str2jsify</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'string-to-jsify'</span><span class="p">),</span>
+    <span class="nx">b</span> <span class="o">=</span> <span class="nx">browserify</span><span class="p">(</span><span class="s1">'./example/app.js'</span><span class="p">);</span>
+
+<span class="nx">b</span><span class="p">.</span><span class="nx">transform</span><span class="p">(</span><span class="nx">str2jsify</span><span class="p">);</span>
+<span class="nx">b</span><span class="p">.</span><span class="nx">bundle</span><span class="p">().</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">require</span><span class="p">(</span><span class="s1">'fs'</span><span class="p">).</span><span class="nx">createWriteStream</span><span class="p">(</span><span class="s1">'bundle.js'</span><span class="p">));</span>
+</pre></div>
+
+<h3>
+<a name="usage-shell" class="anchor" href="#usage-shell"><span class="octicon octicon-link"></span></a>Usage (Shell)</h3>
+
+<div class="highlight highlight-sh"><pre>browserify -t string-to-jsify ./example/app.js &gt; bundle.js
+</pre></div>
+
+<h1>
+<a name="api" class="anchor" href="#api"><span class="octicon octicon-link"></span></a>API</h1>
+
+<h2>
+<a name="str2jsifyconfigureopts" class="anchor" href="#str2jsifyconfigureopts"><span class="octicon octicon-link"></span></a>str2jsify.configure(opts)</h2>
+
+<p>Creates a browserify transform that will only be applied to files with names
+matching any of the given options (if the value is not an array, it will be wrapped in one automatically).</p>
+
+<h3>
+<a name="optspatterns" class="anchor" href="#optspatterns"><span class="octicon octicon-link"></span></a>opts.patterns</h3>
+
+<p>An array of regular expressions or strings representing regular expressions that will be applied to the filename, e.g. <code>/^text-/i</code>, <code>"/^text-/i"</code> or simply <code>"^text-"</code>.</p>
+
+<h3>
+<a name="optsextensions" class="anchor" href="#optsextensions"><span class="octicon octicon-link"></span></a>opts.extensions</h3>
+
+<p>An array of file extensions, e.g. <code>.txt</code> or <code>.html</code>.</p>
+
+<h3>
+<a name="optsfilenames" class="anchor" href="#optsfilenames"><span class="octicon octicon-link"></span></a>opts.filenames</h3>
+
+<p>An array of file names, e.g. <code>README.md</code>.</p>
+
+<h1>
+<a name="unlicense" class="anchor" href="#unlicense"><span class="octicon octicon-link"></span></a>Unlicense</h1>
+
+<p>This is free and unencumbered public domain software. For more information, see <a href="http://unlicense.org/">http://unlicense.org/</a> or the accompanying <a href="https://github.com/pluma/string-to-jsify/blob/master/UNLICENSE">UNLICENSE</a> file.</p>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">string-to-jsify maintained by <a href="https://github.com/pluma">pluma</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
