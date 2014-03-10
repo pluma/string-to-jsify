@@ -4,7 +4,11 @@
 
 This library uses [browserify-transform-tools](https://github.com/benbria/browserify-transform-tools), so you can also supply the configuration by adding a `string-to-jsify` field to your project's `package.json` file.
 
-[![Build Status](https://travis-ci.org/pluma/string-to-jsify.png?branch=master)](https://travis-ci.org/pluma/string-to-jsify) [![NPM version](https://badge.fury.io/js/string-to-jsify.png)](http://badge.fury.io/js/string-to-jsify) [![Dependencies](https://david-dm.org/pluma/string-to-jsify.png)](https://david-dm.org/pluma/string-to-jsify)
+[![stability 3 - stable](http://b.repl.ca/v1/stability-3_--_stable-yellowgreen.png)](http://nodejs.org/api/documentation.html#documentation_stability_index) [![license - Unlicense](http://b.repl.ca/v1/license-Unlicense-lightgrey.png)](http://unlicense.org/) [![Flattr this](https://api.flattr.com/button/flattr-badge-large.png)](https://flattr.com/submit/auto?user_id=pluma&url=https://github.com/pluma/string-to-jsify)
+
+[![Build Status](https://travis-ci.org/pluma/string-to-jsify.png?branch=master)](https://travis-ci.org/pluma/string-to-jsify) [![Coverage Status](https://coveralls.io/repos/pluma/string-to-jsify/badge.png?branch=master)](https://coveralls.io/r/pluma/string-to-jsify?branch=master) [![Dependencies](https://david-dm.org/pluma/string-to-jsify.png?theme=shields.io)](https://david-dm.org/pluma/string-to-jsify)
+
+[![NPM status](https://nodei.co/npm/string-to-jsify.png?compact=true)](https://npmjs.org/package/string-to-jsify)
 
 # Install
 
