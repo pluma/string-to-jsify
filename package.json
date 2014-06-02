@@ -1,7 +1,7 @@
 {
   "name": "string-to-jsify",
   "author": "Alan Plum <me@pluma.io>",
-  "version": "0.3.1",
+  "version": "0.4.0",
   "description": "A browserify transform for loading text files.",
   "licenses": {
     "type": "UNLICENSE",
@@ -16,15 +16,16 @@
     "strings"
   ],
   "dependencies": {
-    "browserify-transform-tools": "~1.2"
+    "browserify-transform-tools": "^1.2"
   },
   "devDependencies": {
-    "mocha": "~1.17",
-    "expect.js": "~0.3",
-    "rewire": "~2.0",
-    "jshint": "~2.4",
-    "istanbul": "~0.2",
-    "coveralls": "~2.8"
+    "browserify": "^4.1.7",
+    "coveralls": "^2.8",
+    "expect.js": "^0.3",
+    "istanbul": "^0.2",
+    "jshint": "^2.4",
+    "mocha": "^1.17",
+    "rewire": "^2.0"
   },
   "main": "./index.js",
   "scripts": {
@@ -32,6 +33,6 @@
     "coveralls": "make coveralls"
   },
   "engines": {
-    "node": ">=0.6"
+    "node": ">=0.8"
   }
 }

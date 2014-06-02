@@ -68,7 +68,7 @@ b.bundle().pipe(require('fs').createWriteStream('bundle.js'));
     },
     "string-to-jsify": {
         "extensions": [".html", ".txt"],
-        "patterns": ["/^README(\.[a-z]+)?$/i", "[a-z]+\.md"]
+        "patterns": ["/^README(\\.[a-z]+)?$/i", "[a-z]+\\.md"]
     }
 }
 ```

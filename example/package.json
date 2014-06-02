@@ -1,0 +1,6 @@
+{
+  "name": "example-project",
+  "string-to-jsify": {
+    "extensions": [".html"]
+  }
+}

@@ -1,4 +1,4 @@
-/*! string-to-jsify 0.3.1 Original author Alan Plum <me@pluma.io>. Released into the Public Domain under the UNLICENSE. @preserve */
+/*! string-to-jsify 0.4.0 Original author Alan Plum <me@pluma.io>. Released into the Public Domain under the UNLICENSE. @preserve */
 var transformTools = require('browserify-transform-tools');
 
 function splat(x) {
