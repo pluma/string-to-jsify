@@ -1,3 +1,5 @@
+**NOTE:** This package is no longer being maintained. If you are interested in taking over as maintainer or are interested in the npm package name, get in touch by creating an issue.
+
 # Synopsis
 
 **string-to-jsify** is a [browserify](https://github.com/substack/node-browserify) transform that allows you to load arbitrary text files as node modules.
